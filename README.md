@@ -27,4 +27,3 @@ Bohužel, jsem zatím nedokázal vyřešit deployment pro verzi kódu zkompilova
 
 Tlačítek je 38, zatímco pinů 40, vynechány byly piny 27 a 28, které jsou pro pokročilé použití. Navíc jejich vynecháním nebyl nikterak rozhozen widget oproti fyzickému rozložení
 
-pro zobrazení aplikace bez přístupu k pinům na 64bit Linux/deb desktopu lze využít verzi FULL_desktop.

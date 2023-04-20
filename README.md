@@ -2,7 +2,7 @@
 
 Projekt řeší přístup GPIO pinům na Raspberry Pi. Cílem bylo vzít si typické projekty s blikající ledkou a nějak to přetvořit a vylepšit. Výstupem je grafická okénková aplikace vytvořená ve frameworku Qt. Aplikace má dva módy: gpio-control a morsecode.
 
-První mód, **gpio-control**, se spouští jako výchozí a obsahuje 38 tlačítek reprezentující GPIO piny a respektující fyzické rozložení (viz "projekt/gpio_layout.png"). Tlačítka umožňují přístup k libovolným konfigurovatelným GPIO pinům a jejich nastavení jako "OUT". Po stisknutí tlačítka se tedy vyexportuje vybraný GPIO, nastaví se jako OUT a pustí se do něj 3V3 napětí. Po dalším stisknutí tlačítka (ToggleButton) se GPIO odexportuje a přestane se do něj poštět napětí.
+První mód, **gpio-control**, se spouští jako výchozí a obsahuje 38 tlačítek reprezentující GPIO piny a respektující fyzické rozložení (viz "Qt-raspi-project/gpio_layout.png"). Tlačítka umožňují přístup k libovolným konfigurovatelným GPIO pinům a jejich nastavení jako "OUT". Po stisknutí tlačítka se tedy vyexportuje vybraný GPIO, nastaví se jako OUT a pustí se do něj 3V3 napětí. Po dalším stisknutí tlačítka (ToggleButton) se GPIO odexportuje a přestane se do něj poštět napětí.
 
 Druhý mód, **morsecode**, je jednoduchou aplikací výše uvedené funkcionality. Uživateli je v ComboBoxu dáno na výběr, ke kterému pinu je připojen (funkcionalitu zapojení lze přímočaře otestovat v módu gpio-control). Do LineEditu pak může zadat text, který chce zakódoat do morseovky. Po stisknutí ENTER se zadaný text vybliká na zapojené LED.
 

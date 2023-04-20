@@ -9,9 +9,9 @@ Druhý mód, **morsecode**, je jednoduchou aplikací výše uvedené funkcionali
 ### POZNÁMKY
 
 _run as root, specify platform xcb._
-1. sudo -i
-2. cd to directory cont. the binary
-3. ./FULLvforraspi -platform xcb
+1. $ sudo -i
+2. $ cd to directory cont. the binary
+3. $ ./FULLvforraspi -platform xcb
 
 - Pro vývoj kódu bylo potřeba zajstit cross-compilátor pro raspberry pi a nainstalovat všechny potřebné knihovny. Postupoval jsem podle návodu na Qwiki (https://wiki.qt.io/index.php?title=RaspberryPi2EGLFS).
 Bohužel, jsem zatím nedokázal vyřešit deployment pro verzi kódu zkompilovanou cross-compilátorem. Uživatel tedy musí mít nainstalovaný Qt na svém Raspberry Pi.

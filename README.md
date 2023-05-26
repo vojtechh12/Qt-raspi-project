@@ -1,4 +1,5 @@
 # PROJEKT GPIO-CONTROL
+## new approach under development in branch *develop*
 
 Projekt řeší přístup GPIO pinům na Raspberry Pi. Cílem bylo vzít si typické projekty s blikající ledkou a nějak to přetvořit a vylepšit. Výstupem je grafická okénková aplikace vytvořená ve frameworku Qt. Aplikace má dva módy: gpio-control a morsecode.
 

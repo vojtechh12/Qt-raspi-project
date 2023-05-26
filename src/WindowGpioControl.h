@@ -43,7 +43,7 @@ public:
         ToggleButton* b24 = new ToggleButton("gpio11");
         ToggleButton* b25 = new ToggleButton("gpio7");
         ToggleButton* b26 = new ToggleButton("GND"); b26->setStyleSheet("background-color: black; color: white;");
-        // PINS ph. 27 & 28 arse reserved for advanced use only and will be skipped comletely
+        // PINS ph. 27 & 28 are reserved for advanced use only and will be skipped comletely
         ToggleButton* b29 = new ToggleButton("GND"); b29->setStyleSheet("background-color: black; color: white;");
         ToggleButton* b30 = new ToggleButton("gpio5");
         ToggleButton* b31 = new ToggleButton("gpio12");

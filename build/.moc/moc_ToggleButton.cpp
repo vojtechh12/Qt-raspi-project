@@ -1,18 +1,19 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'ToggleButton.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.11)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.15.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "ToggleButton.h"
+#include <memory>
+#include "../../src/ToggleButton.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'ToggleButton.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.12.11. It"
+#error "This file was generated using the moc from 5.15.3. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -67,7 +68,7 @@ void ToggleButton::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         auto *_t = static_cast<ToggleButton *>(_o);
-        Q_UNUSED(_t)
+        (void)_t;
         switch (_id) {
         case 0: _t->did_toggle((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
@@ -76,7 +77,7 @@ void ToggleButton::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
 }
 
 QT_INIT_METAOBJECT const QMetaObject ToggleButton::staticMetaObject = { {
-    &QPushButton::staticMetaObject,
+    QMetaObject::SuperData::link<QPushButton::staticMetaObject>(),
     qt_meta_stringdata_ToggleButton.data,
     qt_meta_data_ToggleButton,
     qt_static_metacall,

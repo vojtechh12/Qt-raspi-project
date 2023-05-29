@@ -2,6 +2,8 @@
 #define GPIO_CLASS_H
 #include <string>
 #include <QChar>
+#include <libssh/libssh.h>
+
 
 using namespace std;
 
@@ -24,17 +26,28 @@ public:
     GPIOClass(QString x);
     // the same as above, but uses QString, is convenient in qt code
 
+    int export_gpio_ssh(ssh_session sshSesh); 
+    // exports GPIO
+
     int export_gpio(); 
     // exports GPIO
 
     int unexport_gpio(); 
     // unexport GPIO
 
+    int unexport_gpio(ssh_session sshSesh); 
+    // unexport GPIO
+
     int setdir_gpio(string dir); 
+    // Set GPIO Direction
+
+    int setdir_gpio(string dir, ssh_session sshSesh); 
     // Set GPIO Direction
 
     int setval_gpio(string val); 
     // Set GPIO Value (putput pins)
+
+    int setval_gpio(string val, ssh_session sshSesh);
 
     int getval_gpio(string& val); 
     // Get GPIO Value (input/ output pins)

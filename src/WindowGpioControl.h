@@ -2,6 +2,7 @@
 #include <QGroupBox>
 #include <QGridLayout>
 #include <QVBoxLayout>
+#include <libssh/libssh.h>
 #include "GPIO.h"
 #include "ToggleButton.h"
 
@@ -16,7 +17,7 @@ public:
         QGroupBox* gpiocWinGroupBox = new QGroupBox(tr("GPIO control mode:"));
         QGridLayout* glayout = new QGridLayout(gpiocWinGroupBox);
 
-        // creating toggle buttons one for each gpio pin TODO!!! the rest, this is BETA
+        // creating toggle buttons one for each gpio pin
         ToggleButton* b1 = new ToggleButton("5V"); b1->setStyleSheet("background-color: red; color: black;");
         ToggleButton* b2 = new ToggleButton("3V3"); b2->setStyleSheet("background-color: orange; color: black;");
         ToggleButton* b3 = new ToggleButton("5V"); b3->setStyleSheet("background-color: red; color: black;");

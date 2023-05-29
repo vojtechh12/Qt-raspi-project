@@ -7,8 +7,14 @@
 #include "GPIO.h"
 #include <QChar>
 #include <QString>
+#include <libssh/libssh.h>
+
 
 using namespace std;
+
+/*It probably will work (with ssh, only setvalue() letf, but I crash in the ssh_connection exit)
+if I have already tried with the same gpio. Will try if it stays after I implement unexporting
+int exit_status = ssh_channel_get_exit_status(channel);*/
 
 GPIOClass::GPIOClass() {
     this->gpionum = "4"; 
@@ -45,6 +51,51 @@ int GPIOClass::export_gpio() {
     return 0;
 }
 
+int GPIOClass::export_gpio_ssh(ssh_session sshSesh) {
+    string export_str = "/sys/class/gpio/export";
+    string command = "echo " + this->gpionum + " > " + export_str;
+
+    //create ssh channel
+    ssh_channel channel = ssh_channel_new(sshSesh);
+    if (channel == NULL) {
+        cout << "Failed to create SSH channel." << endl;
+        return -1;
+    }
+
+    // open ssh channel
+    int rc = ssh_channel_open_session(channel);
+    if (rc != SSH_OK) {
+        cout << "Failed to open SSH channel session." << endl;
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+    // execute given command remotely via ssh
+    rc = ssh_channel_request_exec(channel, command.c_str());
+    if (rc != SSH_OK) {
+        cout << "Failed to execute command: " << command << endl;
+        ssh_channel_close(channel);
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+
+    int exit_status = ssh_channel_get_exit_status(channel);
+    if (exit_status != 0) {
+        cout << "Failed to export GPIO " << this->gpionum << "." << endl;
+        ssh_channel_close(channel);
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+    // close ssh channel
+    ssh_channel_send_eof(channel);
+    ssh_channel_close(channel);
+    ssh_channel_free(channel);
+
+    return 0;
+}
+
 int GPIOClass::unexport_gpio() {
     string unexport_str = "/sys/class/gpio/unexport";
 
@@ -62,6 +113,58 @@ int GPIOClass::unexport_gpio() {
     unexportgpio.close(); 
     //close unexport file
 
+    return 0;
+}
+
+int GPIOClass::unexport_gpio(ssh_session sshSesh) {
+    string unexport_str = "/sys/class/gpio/unexport";
+    string command = "echo " + this->gpionum + " > " + unexport_str;
+
+    //create ssh channel
+    ssh_channel channel = ssh_channel_new(sshSesh);
+    if (channel == NULL) {
+        cout << "Failed to create SSH channel." << endl;
+        return -1;
+    }
+
+    // open ssh channel
+    int rc = ssh_channel_open_session(channel);
+    if (rc != SSH_OK) {
+        cout << "Failed to open SSH channel session." << endl;
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+    // execute given commadn remotely via ssh
+    rc = ssh_channel_request_exec(channel, command.c_str());
+    if (rc != SSH_OK) {
+        cout << "Failed to execute command: " << command << endl;
+        ssh_channel_close(channel);
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+    // Wait for the command to finish executing
+    ssh_channel_send_eof(channel);
+    // ssh_channel_wait_eof(channel);
+    // ssh_channel_wait_closed(channel);
+
+    int exit_status = ssh_channel_get_exit_status(channel);
+    if (exit_status != 0) {
+        cout << "Failed to unexport GPIO " << this->gpionum << "." << endl;
+        ssh_channel_close(channel);
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+    // close ssh channel
+    ssh_channel_send_eof(channel);
+    ssh_channel_close(channel);
+    ssh_channel_free(channel);
+
+    // Disconnect and free SSH session
+    ssh_disconnect(sshSesh);
+    ssh_free(sshSesh);
     return 0;
 }
 
@@ -87,6 +190,39 @@ int GPIOClass::setdir_gpio(string dir){
     return 0;
 }
 
+int GPIOClass::setdir_gpio(string dir, ssh_session sshSesh){
+    if (dir != "in" && dir != "out") return -2; // wrong input
+    string setdir_str = "/sys/class/gpio/gpio" + this->gpionum + "/direction";
+
+    ssh_channel channel = ssh_channel_new(sshSesh);
+    if (channel == NULL) {
+        cout << "Failed to create SSH channel." << endl;
+        return -1;
+    }
+
+    int rc = ssh_channel_open_session(channel);
+    if (rc != SSH_OK) {
+        cout << "Failed to open SSH session." << endl;
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+    string command = "echo " + dir + " > " + setdir_str;
+    rc = ssh_channel_request_exec(channel, command.c_str());
+    if (rc != SSH_OK) {
+        cout << "Failed to execute command: " << command << endl;
+        ssh_channel_close(channel);
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+    ssh_channel_send_eof(channel);
+    ssh_channel_close(channel);
+    ssh_channel_free(channel);
+        
+    return 0;
+}
+
 int GPIOClass::setval_gpio(string val) {
 
     string setval_str =  "/sys/class/gpio/gpio" + this->gpionum + "/value";
@@ -105,6 +241,42 @@ int GPIOClass::setval_gpio(string val) {
     setvalgpio.close();
     // close value file 
 
+    return 0;
+}
+
+int GPIOClass::setval_gpio(string val, ssh_session sshSesh) {
+    string setval_str = "/sys/class/gpio/gpio" + this->gpionum + "/value";
+
+    ssh_channel channel = ssh_channel_new(sshSesh);
+    if (channel == NULL) {
+        cout << "Failed to create SSH channel." << endl;
+        return -1;
+    }
+
+    int rc = ssh_channel_open_session(channel);
+    if (rc != SSH_OK) {
+        cout << "Failed to open SSH session." << endl;
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+    string command = "echo " + val + " > " + setval_str;
+    rc = ssh_channel_request_exec(channel, command.c_str());
+    if (rc != SSH_OK) {
+        cout << "Failed to execute command: " << command << endl;
+        ssh_channel_close(channel);
+        ssh_channel_free(channel);
+        return -1;
+    }
+
+    ssh_channel_send_eof(channel);
+    ssh_channel_close(channel);
+    ssh_channel_free(channel);
+
+    // Disconnect and free SSH session
+    ssh_disconnect(sshSesh);
+    ssh_free(sshSesh);
+        
     return 0;
 }
 

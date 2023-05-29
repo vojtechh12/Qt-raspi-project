@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QStackedWidget>
+#include <libssh/libssh.h>
 #include "WindowGpioControl.h"
 #include "WindowMorse.h"
 
